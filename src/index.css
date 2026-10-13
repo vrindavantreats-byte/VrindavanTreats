@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'Outfit', system-ui, sans-serif;
+  --font-script: 'Playfair Display', Georgia, serif;
+
+  --color-brand-red: #E52E2D;
+  --color-brand-red-hover: #D0201F;
+  --color-brand-red-light: #FEECEB;
+  
+  --color-accent-teal: #0C362B;
+  --color-accent-teal-dark: #07231B;
+  --color-accent-green: #15803D;
+
+  --color-brand-gold: #F59E0B;
+  --color-brand-gold-dark: #D97706;
+}
+
+@layer base {
+  body {
+    background-color: #FFFFFF;
+    color: #1A1A1A;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+::-webkit-scrollbar-thumb {
+  background: #E52E2D;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #B91C1C;
+}
+
+/* Cursive font accent for section headers like reference */
+.font-cursive {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+}
