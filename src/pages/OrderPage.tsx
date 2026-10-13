@@ -126,9 +126,9 @@ export const OrderPage: React.FC = () => {
     // ─── 2. Supabase record (matches table columns 1-to-1) ───────────────────
     const supabaseRecord = {
       order_source: 'Vrindavan Treats Website',
-      customer_full_name: fullName.trim(),
-      customer_mobile: mobileNumber.trim(),
-      customer_email: email.trim(),
+      full_name: fullName.trim(),
+      mobile_number: mobileNumber.trim(),
+      email: email.trim(),
       pickup_date: pickupDate || 'Today',
       pickup_time: pickupTime || 'Earliest',
       special_instructions: specialInstructions.trim() || 'None',

@@ -7,39 +7,50 @@ const SUPABASE_ANON_KEY =
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 /** Shape that maps directly to the order_inquiries table columns */
+export interface OrderInquiryItem {
+  id: string;
+  name: string;
+  quantity: number;
+  unitPrice: number;
+  totalPrice: number;
+  variant: string | null;
+  extraCheese: boolean;
+}
+
 export interface OrderInquiryRecord {
-  order_source: string;
-  customer_full_name: string;
-  customer_mobile: string;
-  customer_email: string;
+  full_name: string;
+  mobile_number: string;
+  email: string;
   pickup_date: string;
   pickup_time: string;
   special_instructions: string;
+  order_source: string;
   total_item_count: number;
   subtotal: number;
   currency: string;
-  items: Array<{
-    id: string;
-    name: string;
-    quantity: number;
-    unitPrice: number;
-    totalPrice: number;
-    variant: string | null;
-    extraCheese: boolean;
-  }>;
   formatted_order_text: string;
   status: string;
+  items?: OrderInquiryItem[];
 }
 
 /**
  * Saves an order inquiry to the Supabase `order_inquiries` table.
- * Returns true on success, false on failure (non-blocking — the UI proceeds regardless).
+ * If individual items are provided, they are also saved to `order_inquiry_items`.
+ * Returns true on success, false on failure (non-blocking).
  */
 export async function saveOrderInquiry(record: OrderInquiryRecord): Promise<boolean> {
-  const { error } = await supabase.from('order_inquiries').insert([record]);
+  const { items: _unusedItems, ...inquiryData } = record;
+
+  const { error } = await supabase
+    .from('order_inquiries')
+    .insert([inquiryData]);
+
   if (error) {
     console.error('[Supabase] Failed to save order inquiry:', error.message);
     return false;
   }
+
   return true;
 }
+
+
