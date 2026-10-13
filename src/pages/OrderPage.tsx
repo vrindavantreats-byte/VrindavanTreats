@@ -13,6 +13,7 @@ import {
 import { useOrder } from '../context/OrderContext';
 import { MENU_ITEMS, STORE_INFO } from '../data/menuData';
 import { usePageMeta } from '../hooks/usePageMeta';
+import { saveOrderInquiry } from '../lib/supabase';
 
 const ZAPIER_WEBHOOK_URL = 'https://hooks.zapier.com/hooks/catch/29118429/416zue8/';
 
@@ -83,7 +84,28 @@ export const OrderPage: React.FC = () => {
     setIsSubmitting(true);
     setWebhookStatus(null);
 
-    const orderPayload = {
+    // Build shared order items array
+    const orderItems = items.map((item) => ({
+      id: item.id,
+      name: item.name,
+      quantity: item.quantity,
+      unitPrice: item.unitPrice,
+      totalPrice: item.unitPrice * item.quantity,
+      variant: item.selectedVariant || null,
+      extraCheese: Boolean(item.extraCheese),
+    }));
+
+    const formattedOrderText = items
+      .map(
+        (it, i) =>
+          `${i + 1}. ${it.name} (${it.quantity}x) - ₹${it.unitPrice * it.quantity}${
+            it.selectedVariant ? ` [${it.selectedVariant}]` : ''
+          }${it.extraCheese ? ' [+Cheese]' : ''}`
+      )
+      .join(', ');
+
+    // ─── 1. Zapier Webhook payload ────────────────────────────────────────────
+    const zapierPayload = {
       timestamp: new Date().toISOString(),
       orderSource: 'Vrindavan Treats Website',
       customer: {
@@ -96,49 +118,53 @@ export const OrderPage: React.FC = () => {
         pickupTime: pickupTime || 'Earliest',
       },
       specialInstructions: specialInstructions.trim() || 'None',
-      summary: {
-        totalItemCount: totalCount,
-        subtotal: subtotal,
-        currency: 'INR',
-      },
-      items: items.map((item) => ({
-        id: item.id,
-        name: item.name,
-        quantity: item.quantity,
-        unitPrice: item.unitPrice,
-        totalPrice: item.unitPrice * item.quantity,
-        variant: item.selectedVariant || null,
-        extraCheese: Boolean(item.extraCheese),
-      })),
-      formattedOrderText: items
-        .map(
-          (it, i) =>
-            `${i + 1}. ${it.name} (${it.quantity}x) - ₹${it.unitPrice * it.quantity}${
-              it.selectedVariant ? ` [${it.selectedVariant}]` : ''
-            }${it.extraCheese ? ' [+Cheese]' : ''}`
-        )
-        .join(', '),
+      summary: { totalItemCount: totalCount, subtotal, currency: 'INR' },
+      items: orderItems,
+      formattedOrderText,
     };
 
-    try {
-      // Send to Zapier Catch Webhook
-      await fetch(ZAPIER_WEBHOOK_URL, {
+    // ─── 2. Supabase record (matches table columns 1-to-1) ───────────────────
+    const supabaseRecord = {
+      order_source: 'Vrindavan Treats Website',
+      customer_full_name: fullName.trim(),
+      customer_mobile: mobileNumber.trim(),
+      customer_email: email.trim(),
+      pickup_date: pickupDate || 'Today',
+      pickup_time: pickupTime || 'Earliest',
+      special_instructions: specialInstructions.trim() || 'None',
+      total_item_count: totalCount,
+      subtotal: subtotal,
+      currency: 'INR',
+      items: orderItems,
+      formatted_order_text: formattedOrderText,
+      status: 'pending',
+    };
+
+    // ─── Fire both in parallel — neither blocks the other ───────────────────
+    const [zapierResult, supabaseResult] = await Promise.allSettled([
+      fetch(ZAPIER_WEBHOOK_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(orderPayload),
-        mode: 'no-cors', // Zapier catch hook handles no-cors / standard POST gracefully
-      });
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(zapierPayload),
+        mode: 'no-cors',
+      }),
+      saveOrderInquiry(supabaseRecord),
+    ]);
+
+    const zapierOk = zapierResult.status === 'fulfilled';
+    const supabaseOk = supabaseResult.status === 'fulfilled' && supabaseResult.value === true;
+
+    if (zapierOk || supabaseOk) {
       setWebhookStatus('success');
-    } catch (err) {
-      console.warn('Webhook trigger error (proceeding to preview):', err);
+    } else {
+      console.warn('[Order] Both Zapier and Supabase encountered errors — showing confirmation anyway');
       setWebhookStatus('fallback');
-    } finally {
-      setIsSubmitting(false);
-      setSubmittedPreview(true);
     }
+
+    setIsSubmitting(false);
+    setSubmittedPreview(true);
   };
+
 
   // WhatsApp Order formatted text generator
   const generateWhatsAppMessage = () => {
