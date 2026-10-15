@@ -12,6 +12,30 @@ export const MenuPage: React.FC = () => {
     description:
       'Browse the full Vrindavan Treats menu — burgers, pizzas, sandwiches, veg momos, peri peri fries, thick shakes and Amul ice creams in Deolali, Nashik.',
     canonicalPath: '/menu',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: 'Vrindavan Treats Pure Vegetarian Food Menu',
+      description: 'Full food menu including burgers, pizzas, sandwiches, momos, quick bites and shakes in Deolali, Nashik.',
+      numberOfItems: MENU_ITEMS.length,
+      itemListElement: MENU_ITEMS.slice(0, 20).map((item, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        item: {
+          '@type': 'MenuItem',
+          name: item.name,
+          description: item.description,
+          image: item.image.startsWith('http') ? item.image : `https://vrindavantreats.in${item.image}`,
+          offers: {
+            '@type': 'Offer',
+            price: item.price,
+            priceCurrency: 'INR',
+            availability: 'https://schema.org/InStock',
+          },
+          suitableForDiet: 'https://schema.org/VegetarianDiet',
+        },
+      })),
+    },
   });
   const [searchParams, setSearchParams] = useSearchParams();
   const currentCategory = (searchParams.get('cat') as FoodCategory) || 'all';

@@ -10,6 +10,24 @@ export const AboutPage: React.FC = () => {
     description:
       'Learn about Vrindavan Treats — the official Amul franchise ice cream parlour and 100% pure vegetarian food shop at Vijay Nagar, Deolali, Nashik. Open every day 9 AM–11 PM.',
     canonicalPath: '/about',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: 'https://vrindavantreats.in/',
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'About Us',
+          item: 'https://vrindavantreats.in/about',
+        },
+      ],
+    },
   });
   return (
     <div className="bg-white pb-24">
@@ -102,6 +120,10 @@ export const AboutPage: React.FC = () => {
                 <img
                   src="/images/shop-interior.webp"
                   alt="Real Shop Interior of Vrindavan Treats Amul Franchise Parlour in Deolali"
+                  width="600"
+                  height="450"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover"
                 />
                 <div className="p-5 bg-white space-y-1">

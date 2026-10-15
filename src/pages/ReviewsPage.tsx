@@ -9,6 +9,24 @@ export const ReviewsPage: React.FC = () => {
     description:
       'Read genuine customer reviews for Vrindavan Treats in Deolali, Nashik. Share your experience and help others discover the best vegetarian food and Amul ice cream parlour near Vijay Nagar.',
     canonicalPath: '/reviews',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: 'https://vrindavantreats.in/',
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Customer Reviews',
+          item: 'https://vrindavantreats.in/reviews',
+        },
+      ],
+    },
   });
   return (
     <div className="bg-white pb-24">

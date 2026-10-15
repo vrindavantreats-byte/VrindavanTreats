@@ -20,6 +20,58 @@ export const HomePage: React.FC = () => {
     description:
       'Vrindavan Treats — Official Amul Franchise ice cream parlour & 100% vegetarian quick-service food shop in Deolali, Nashik. Burgers, Pizzas, Sandwiches, Momos, Shakes & Amul Ice Creams. Open daily 9 AM–11 PM.',
     canonicalPath: '/',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'WebSite',
+          '@id': 'https://vrindavantreats.in/#website',
+          url: 'https://vrindavantreats.in/',
+          name: 'Vrindavan Treats',
+          description: 'Official Amul Franchise & Pure Veg Quick Service Food Shop in Deolali, Nashik',
+          publisher: {
+            '@id': 'https://vrindavantreats.in/#business',
+          },
+        },
+        {
+          '@type': 'FAQPage',
+          mainEntity: [
+            {
+              '@type': 'Question',
+              name: 'Where is Vrindavan Treats located in Nashik?',
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: 'Vrindavan Treats is located at Shop No. E6, Town Square Building, Vijay Nagar, Deolali, Nashik, Maharashtra 422502.',
+              },
+            },
+            {
+              '@type': 'Question',
+              name: 'What are the opening hours of Vrindavan Treats?',
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: 'Vrindavan Treats is open every day from Monday to Sunday, 9:00 AM to 11:00 PM IST.',
+              },
+            },
+            {
+              '@type': 'Question',
+              name: 'Is Vrindavan Treats an official Amul franchise?',
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: 'Yes, Vrindavan Treats is an authorized Amul franchise ice cream parlour serving genuine Amul ice creams, shakes, and pure vegetarian quick bites made with authentic Amul dairy.',
+              },
+            },
+            {
+              '@type': 'Question',
+              name: 'Does Vrindavan Treats serve 100% pure vegetarian food?',
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: 'Yes, our entire kitchen and parlour are 100% pure vegetarian, serving burgers, pizzas, sandwiches, momos, fries, thick shakes, and Amul ice creams.',
+              },
+            },
+          ],
+        },
+      ],
+    },
   });
 
   // Featured selection: 8 top items from distinct categories
@@ -45,6 +97,11 @@ export const HomePage: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
           {/* Left Hero Column */}
           <div className="lg:col-span-6 space-y-5 sm:space-y-6 text-left">
+            {/* SEO Subtitle Tag */}
+            <span className="inline-block px-3.5 py-1 rounded-full bg-red-50 text-[#E52E2D] text-xs font-extrabold tracking-wide uppercase border border-red-100">
+              Amul Franchise &amp; Pure Veg Quick Bites • Deolali, Nashik
+            </span>
+
             {/* Main Headline */}
             <div className="space-y-1">
               <h1 className="font-display font-black text-3xl sm:text-5xl lg:text-6xl text-gray-900 tracking-tight leading-[1.12]">
@@ -106,6 +163,9 @@ export const HomePage: React.FC = () => {
                 <img
                   src="/images/generated/hero-burger.jpg"
                   alt="Vrindavan Treats Gourmet Double Decker Burger"
+                  width="448"
+                  height="448"
+                  fetchPriority="high"
                   className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700"
                 />
               </div>
@@ -128,7 +188,11 @@ export const HomePage: React.FC = () => {
                 <div className="relative mt-2 rounded-xl sm:rounded-2xl overflow-hidden h-20 sm:h-24 bg-black/20">
                   <img
                     src="/images/generated/vt-special-burger.jpg"
-                    alt="Tasty Burger"
+                    alt="Today's Special Gourmet Burger at Vrindavan Treats"
+                    width="256"
+                    height="96"
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover"
                   />
                   {/* Starburst 50% OFF sticker badge */}
@@ -145,6 +209,7 @@ export const HomePage: React.FC = () => {
 
       {/* ===================== PROMO BANNERS SECTION ===================== */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="sr-only">Featured Offers &amp; Chef's Specials</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-5 sm:gap-6 items-stretch">
           {/* Card 1: Dark Teal "FRIDAY SPECIAL TASTY BURGER" */}
           <div className="md:col-span-1 lg:col-span-4 bg-[#0C362B] text-white rounded-3xl p-6 shadow-md flex flex-col justify-between relative overflow-hidden group">
@@ -160,7 +225,11 @@ export const HomePage: React.FC = () => {
             <div className="my-4 relative h-36 sm:h-40 rounded-2xl overflow-hidden bg-black/30">
               <img
                 src="/images/generated/aloo-tikki-burger.jpg"
-                alt="Aloo Tikki Burger"
+                alt="Crispy Aloo Tikki Burger Deal at Vrindavan Treats"
+                width="384"
+                height="160"
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500"
               />
               <div className="absolute bottom-2 right-2 bg-[#F59E0B] text-gray-900 w-11 h-11 sm:w-12 sm:h-12 rounded-full font-black flex flex-col items-center justify-center leading-none shadow-lg border-2 border-white">
@@ -202,7 +271,11 @@ export const HomePage: React.FC = () => {
               <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 bg-white/10 shadow-md">
                 <img
                   src="/images/veg-momos-user.jpg"
-                  alt="Veg Momos Special"
+                  alt="Fresh Steamed Veg Momos at Vrindavan Treats"
+                  width="96"
+                  height="96"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform"
                 />
               </div>
@@ -227,7 +300,11 @@ export const HomePage: React.FC = () => {
               <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 bg-white/10 shadow-md">
                 <img
                   src="/images/generated/cheese-corn-pizza.jpg"
-                  alt="Pizza Offer"
+                  alt="Cheese and Corn Pizza at Vrindavan Treats"
+                  width="96"
+                  height="96"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform"
                 />
               </div>
@@ -248,7 +325,11 @@ export const HomePage: React.FC = () => {
             <div className="my-4 relative h-36 sm:h-40 rounded-2xl overflow-hidden bg-black/40">
               <img
                 src="/images/generated/veg-cheese-burger.jpg"
-                alt="Veg Cheese Burger"
+                alt="Chef's Special Veg Cheese Burger at Vrindavan Treats"
+                width="384"
+                height="160"
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500"
               />
             </div>
@@ -349,6 +430,10 @@ export const HomePage: React.FC = () => {
                 <img
                   src="/images/shop-interior.webp"
                   alt="Vrindavan Treats Shop Interior and Amul Counter in Deolali, Nashik"
+                  width="600"
+                  height="400"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-64 sm:h-80 md:h-96 object-cover object-center"
                 />
                 <div className="p-3.5 sm:p-4 bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs text-gray-600">
@@ -370,6 +455,14 @@ export const HomePage: React.FC = () => {
 
       {/* ===================== LOCATION & HOURS SECTION ===================== */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-2xl mx-auto mb-6 sm:mb-8 space-y-1">
+          <span className="font-serif italic text-[#E52E2D] text-sm sm:text-base font-bold">
+            Visit Our Store
+          </span>
+          <h2 className="font-display font-black text-2xl sm:text-3xl text-gray-900">
+            Location, Hours & Direct Contact
+          </h2>
+        </div>
         <div className="bg-white rounded-3xl p-6 sm:p-10 border border-gray-100 shadow-md">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
             {/* Hours card */}

@@ -17,6 +17,55 @@ export const ContactPage: React.FC = () => {
     description:
       'Contact Vrindavan Treats in Deolali, Nashik. Phone & WhatsApp: +91 77969 02555, Email: swapnilharak@gmail.com. Address: Shop No. E6, Town Square Building, Vijay Nagar.',
     canonicalPath: '/contact',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            {
+              '@type': 'ListItem',
+              position: 1,
+              name: 'Home',
+              item: 'https://vrindavantreats.in/',
+            },
+            {
+              '@type': 'ListItem',
+              position: 2,
+              name: 'Contact Us',
+              item: 'https://vrindavantreats.in/contact',
+            },
+          ],
+        },
+        {
+          '@type': 'LocalBusiness',
+          name: STORE_INFO.name,
+          telephone: STORE_INFO.phone,
+          email: STORE_INFO.email,
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'Shop No. E6, Town Square Building, Vijay Nagar',
+            addressLocality: 'Deolali',
+            addressRegion: 'Maharashtra',
+            postalCode: '422502',
+            addressCountry: 'IN',
+          },
+          geo: {
+            '@type': 'GeoCoordinates',
+            latitude: 19.9475,
+            longitude: 73.8577,
+          },
+          openingHoursSpecification: [
+            {
+              '@type': 'OpeningHoursSpecification',
+              dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+              opens: '09:00',
+              closes: '23:00',
+            },
+          ],
+        },
+      ],
+    },
   });
   const status = getStoreStatusIST();
 

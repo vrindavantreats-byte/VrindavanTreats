@@ -38,8 +38,11 @@ export const FoodCard: React.FC<FoodCardProps> = ({ item }) => {
       <div className="relative h-48 sm:h-52 w-full overflow-hidden rounded-2xl bg-gray-50 mb-4">
         <img
           src={item.image}
-          alt={item.name}
+          alt={`${item.name} - Fresh Vegetarian food at Vrindavan Treats Deolali`}
           loading="lazy"
+          decoding="async"
+          width="320"
+          height="208"
           className="w-full h-full object-cover object-center group-hover:scale-108 transition-transform duration-500"
         />
 

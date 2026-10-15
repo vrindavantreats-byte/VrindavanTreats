@@ -8,6 +8,24 @@ export const PrivacyPolicyPage: React.FC = () => {
     description:
       'Privacy policy for Vrindavan Treats customer inquiries, contact details handling, and order requests.',
     canonicalPath: '/privacy-policy',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: 'https://vrindavantreats.in/',
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Privacy Policy',
+          item: 'https://vrindavantreats.in/privacy-policy',
+        },
+      ],
+    },
   });
   return (
     <div className="bg-white pb-24">
@@ -54,10 +72,10 @@ export const PrivacyPolicyPage: React.FC = () => {
 
           <div className="space-y-3 pt-4 border-t border-gray-200">
             <h2 className="font-display font-black text-2xl text-gray-900">
-              3. Frontend Demonstration Notice
+              3. Data Security & Storage
             </h2>
             <p className="text-sm leading-relaxed text-gray-600">
-              Please note that this website operates as a frontend inquiry portal. Inquiries submitted via the standard form are processed locally in your browser session for preview purposes and can be transmitted directly to our shop via WhatsApp. We do not maintain unverified cloud databases or automated background profiling.
+              Your contact and order inquiry details are securely transmitted to our verified shop backend and order processing channels to ensure timely fulfillment. We do not maintain advertising trackers or share customer information with any marketing networks.
             </p>
           </div>
 

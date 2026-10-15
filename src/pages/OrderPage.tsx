@@ -23,6 +23,24 @@ export const OrderPage: React.FC = () => {
     description:
       'Place your food order inquiry with Vrindavan Treats. Order pure veg burgers, pizzas, momos, sandwiches, fries & shakes in Deolali, Nashik.',
     canonicalPath: '/order',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: 'https://vrindavantreats.in/',
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Place Your Order',
+          item: 'https://vrindavantreats.in/order',
+        },
+      ],
+    },
   });
 
   const { items, updateQuantity, removeItem, clearOrder, subtotal, totalCount, addItem } = useOrder();

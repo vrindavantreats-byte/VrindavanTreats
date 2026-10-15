@@ -5,6 +5,8 @@ interface PageMetaOptions {
   description: string;
   /** Optional canonical path e.g. "/menu" — defaults to current pathname */
   canonicalPath?: string;
+  /** Optional page-specific JSON-LD structured data object */
+  jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
 const BASE_TITLE = 'Vrindavan Treats';
@@ -14,7 +16,7 @@ const BASE_DOMAIN = 'https://vrindavantreats.in';
  * Sets per-page <title> and <meta name="description"> dynamically.
  * Also keeps og:title, og:description, og:url and the canonical link in sync.
  */
-export function usePageMeta({ title, description, canonicalPath }: PageMetaOptions): void {
+export function usePageMeta({ title, description, canonicalPath, jsonLd }: PageMetaOptions): void {
   useEffect(() => {
     const fullTitle = title === BASE_TITLE
       ? title
@@ -69,9 +71,23 @@ export function usePageMeta({ title, description, canonicalPath }: PageMetaOptio
     }
     ogUrl.setAttribute('content', `${BASE_DOMAIN}${path}`);
 
-    // Restore base title on unmount
+    // Dynamic JSON-LD structured data for this page
+    let scriptEl: HTMLScriptElement | null = null;
+    if (jsonLd) {
+      scriptEl = document.createElement('script');
+      scriptEl.type = 'application/ld+json';
+      scriptEl.setAttribute('data-page-schema', 'true');
+      scriptEl.textContent = JSON.stringify(jsonLd);
+      document.head.appendChild(scriptEl);
+    }
+
+    // Cleanup on unmount
     return () => {
       document.title = `${BASE_TITLE} | Amul Franchise & Pure Veg Quick Bites | Deolali, Nashik`;
+      if (scriptEl && scriptEl.parentNode) {
+        scriptEl.parentNode.removeChild(scriptEl);
+      }
     };
-  }, [title, description, canonicalPath]);
+  }, [title, description, canonicalPath, jsonLd]);
 }
+
